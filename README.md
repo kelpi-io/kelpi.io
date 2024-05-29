@@ -1,3 +1,3 @@
 # Global Server Load Balancer in Kubernetes
 
-![](https://github.com/polaris-gslb/polaris-core/wiki/overview.jpg)
+![](https://raw.githubusercontent.com/vaishutin/gslb-operator/main/docs/img/components.png)
