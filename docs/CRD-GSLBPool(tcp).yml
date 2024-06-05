@@ -1,0 +1,19 @@
+apiVersion: gslb-operator.io/v1beta1
+kind: GSLBPool
+spec:
+  globalName: mypool.domain.ru
+  balanceType: wrr
+  type: tcp
+  monitor:
+    timeout: 5
+    interval: 10
+    retries: 2
+    port: 80
+  members:
+    - name: ip1
+      ip: 1.1.1.1
+      weight: 1
+    - name: ip2
+      ip: 2.2.2.2
+      weight: 1
+    
