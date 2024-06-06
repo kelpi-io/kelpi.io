@@ -63,20 +63,13 @@ func worker(config checkers.WatcherConfig, memberName string, wg *sync.WaitGroup
 	defer wg.Done()
 
 	member := config.Members[memberName]
-
 	log.Printf("[checker] Started for %s", member.Ip)
 
 	for {
 
-		err := checkers.TcpCheck(
-			config.Monitor,
-			member)
+		err := checkers.TcpCheck(config.Monitor, member)
 
-		errorWrite := storage.WriteStat(conn, config, memberName, err == nil)
-
-		if errorWrite != nil {
-			log.Println("Error write to Redis")
-		}
+		_ = storage.WriteStat(conn, config, memberName, err == nil)
 
 		time.Sleep(time.Second * time.Duration(config.Monitor.Interval))
 
