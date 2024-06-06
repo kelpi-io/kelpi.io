@@ -12,9 +12,11 @@ type MonitorParam struct {
 
 // Endpoint for monitoring
 type Member struct {
-	Name   string `yaml:"name"`
-	Ip     string `yaml:"ip"`
-	Weight int    `yaml:"weight"`
+	Name      string `yaml:"name"`
+	Ip        string `yaml:"ip"`
+	Weight    int    `yaml:"weight"`
+	Health    bool   `yaml:"health"`
+	LastCheck int64  `yaml:"lastCheck"`
 }
 
 type WatcherConfig struct {
