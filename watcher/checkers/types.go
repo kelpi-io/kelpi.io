@@ -2,27 +2,30 @@ package checkers
 
 // Params for all hosts in pool
 type MonitorParam struct {
-	Timeout  int `yaml:"timeout"`
-	Interval int `yaml:"interval"`
-	Retries  int `yaml:"retries"`
-	Port     int `yaml:"port"`
+	Timeout  int `json:"timeout"`
+	Interval int `json:"interval"`
+	Retries  int `json:"retries"`
+	Port     int `json:"port"`
 	//	ReqData string
 	//	RespRegex string
 }
 
 // Endpoint for monitoring
 type Member struct {
-	Name      string `yaml:"name"`
-	Ip        string `yaml:"ip"`
-	Weight    int    `yaml:"weight"`
-	Health    bool   `yaml:"health"`
-	LastCheck int64  `yaml:"lastCheck"`
+	Ip     string `json:"ip"`
+	Weight int    `json:"weight"`
 }
 
 type WatcherConfig struct {
-	GlobalName  string       `yaml:"globalName"`
-	BalanceType string       `yaml:"balanceType"`
-	Type        string       `yaml:"type"`
-	Monitor     MonitorParam `yaml:"monitor"`
-	Members     []Member     `yaml:"members"`
+	GlobalName  string            `json:"globalName"`
+	BalanceType string            `json:"balanceType"`
+	Type        string            `json:"type"`
+	Monitor     MonitorParam      `json:"monitor"`
+	Members     map[string]Member `json:"members"`
+}
+
+type HealthData struct {
+	Health    bool   `json:"health"`
+	LastCheck int64  `json:"lastCheck"`
+	IP        string `json:"ip"`
 }

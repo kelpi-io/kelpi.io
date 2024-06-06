@@ -16,11 +16,11 @@ func TcpCheck(monitorParam MonitorParam, member Member) error {
 
 	conn, err := net.DialTimeout("tcp", endpoint, timeout)
 	if err != nil {
-		log.Printf("[%s] %s TCP error: %s", member.Name, member.Ip, err)
+		log.Printf("[%s] TCP error: %s", member.Ip, err)
 		return err
 	}
 
-	log.Printf("[%s] %s TCP OK", member.Name, member.Ip)
+	//log.Printf("[%s] TCP OK", member.Ip)
 
 	defer conn.Close()
 
