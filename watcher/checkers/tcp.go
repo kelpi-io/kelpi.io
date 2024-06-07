@@ -7,22 +7,32 @@ import (
 	"time"
 )
 
-func TcpCheck(monitorParam MonitorParam, member Member) error {
+type TcpHealthData struct {
+	Health    bool   `json:"health"`
+	LastCheck int64  `json:"lastCheck"`
+	IP        string `json:"ip"`
+}
+
+func TcpCheck(config WatcherConfig, member Member) interface{} {
 	endpoint := net.JoinHostPort(
 		member.Ip,
-		strconv.Itoa(monitorParam.Port))
+		strconv.Itoa(config.Monitor.Port))
 
-	timeout := time.Duration(time.Second * time.Duration(monitorParam.Timeout))
+	timeout := time.Duration(time.Second * time.Duration(config.Monitor.Timeout))
 
 	conn, err := net.DialTimeout("tcp", endpoint, timeout)
+
 	if err != nil {
 		log.Printf("[%s] TCP error: %s", member.Ip, err)
-		return err
 	}
-
-	//log.Printf("[%s] TCP OK", member.Ip)
 
 	defer conn.Close()
 
-	return nil
+	health := TcpHealthData{
+		Health:    err == nil,
+		LastCheck: time.Now().Unix(),
+		IP:        member.Ip,
+	}
+
+	return health
 }

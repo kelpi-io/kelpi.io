@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"log"
-	"time"
 
 	"github.com/redis/go-redis/v9"
 	"github.com/vaishutin/gslb-operator/watcher/checkers"
@@ -28,12 +27,6 @@ func GetClient(addr string, password string, db int, poolName string) (*redis.Cl
 	}
 	log.Println(cmd)
 
-	cn := client.Conn()
-
-	ttlReg := time.Duration(10) * time.Second
-	resp := cn.Set(ctx, "REG_"+poolName, "Registered", ttlReg)
-
-	log.Println(resp)
 	return client, nil
 }
 
@@ -54,17 +47,11 @@ func InitPool(conn *redis.Conn, conf checkers.WatcherConfig) error {
 }
 
 // Write member status
-func WriteStat(conn *redis.Conn, config checkers.WatcherConfig, memberName string, memberHealth bool) error {
+func WriteStat(conn *redis.Conn, config checkers.WatcherConfig, memberName string, healthData interface{}) error {
 	ctx := context.Background()
 
-	status := checkers.HealthData{
-		Health:    memberHealth,
-		LastCheck: time.Now().Unix(),
-		IP:        config.Members[memberName].Ip,
-	}
-
 	keyVal := config.GlobalName + "/" + memberName + "/health"
-	value, _ := json.Marshal(status)
+	value, _ := json.Marshal(healthData)
 
 	cmd := conn.Set(ctx, keyVal, value, 0)
 

@@ -23,9 +23,3 @@ type WatcherConfig struct {
 	Monitor     MonitorParam      `json:"monitor"`
 	Members     map[string]Member `json:"members"`
 }
-
-type HealthData struct {
-	Health    bool   `json:"health"`
-	LastCheck int64  `json:"lastCheck"`
-	IP        string `json:"ip"`
-}

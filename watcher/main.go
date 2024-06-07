@@ -61,15 +61,14 @@ func main() {
 
 func worker(config checkers.WatcherConfig, memberName string, wg *sync.WaitGroup, conn *redis.Conn) {
 	defer wg.Done()
-
 	member := config.Members[memberName]
 	log.Printf("[checker] Started for %s", member.Ip)
 
 	for {
 
-		err := checkers.TcpCheck(config.Monitor, member)
+		result := checkers.TcpCheck(config, member)
 
-		_ = storage.WriteStat(conn, config, memberName, err == nil)
+		_ = storage.WriteStat(conn, config, memberName, result)
 
 		time.Sleep(time.Second * time.Duration(config.Monitor.Interval))
 
