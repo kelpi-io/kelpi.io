@@ -13,9 +13,9 @@ import (
 // Init connect
 func GetClient(addr string, password string, db int, poolName string) (*redis.Client, error) {
 	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "qwerty",
-		DB:       0,
+		Addr:     addr,
+		Password: password,
+		DB:       db,
 		PoolSize: 1000,
 	})
 
@@ -67,6 +67,10 @@ func WriteStat(conn *redis.Conn, config checkers.WatcherConfig, memberName strin
 	value, _ := json.Marshal(status)
 
 	cmd := conn.Set(ctx, keyVal, value, 0)
+
+	if cmd.Err() != nil {
+		panic(cmd.Err())
+	}
 
 	return cmd.Err()
 
