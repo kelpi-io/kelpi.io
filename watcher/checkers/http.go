@@ -65,6 +65,8 @@ func HttpCheck(config WatcherConfig, memberName string) interface{} {
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Host = monitorParam.Host
 
+	req.Header.Add("User-Agent", "gslb-operator/1.0.0")
+
 	for k, v := range monitorParam.Headers {
 		req.Header.Add(k, v)
 	}
