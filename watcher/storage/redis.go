@@ -25,7 +25,7 @@ func GetClient(addr string, password string, db int, poolName string) (*redis.Cl
 		log.Println("Redis connect error")
 		return nil, cmd.Err()
 	}
-	log.Println(cmd)
+	log.Println("[REDIS]", cmd)
 
 	return client, nil
 }

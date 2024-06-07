@@ -45,6 +45,17 @@ func main() {
 	}
 
 	// ============================
+	// Registration checkers
+	// ============================
+
+	checkersMap := map[string]checkers.CheckerPrototype{
+		"tcp":  checkers.TcpCheck,
+		"http": checkers.HttpCheck,
+	}
+
+	currentChecker := checkersMap[configs.Type]
+
+	// ============================
 	// Go run gorutines
 	// ============================
 
@@ -52,25 +63,25 @@ func main() {
 
 	for memberName := range configs.Members {
 		waitGroup.Add(1)
-		go worker(configs, memberName, waitGroup, client.Conn())
+		go worker(configs, memberName, waitGroup, client.Conn(), currentChecker)
 	}
 
 	waitGroup.Wait()
 
 }
 
-func worker(config checkers.WatcherConfig, memberName string, wg *sync.WaitGroup, conn *redis.Conn) {
+func worker(config checkers.WatcherConfig, memberName string, wg *sync.WaitGroup, conn *redis.Conn, f checkers.CheckerPrototype) {
 	defer wg.Done()
-	member := config.Members[memberName]
-	log.Printf("[checker] Started for %s", member.Ip)
+
+	log.Printf("[checker] Started for %s", memberName)
 
 	for {
 
-		result := checkers.TcpCheck(config, member)
+		result := f(config, memberName)
 
 		_ = storage.WriteStat(conn, config, memberName, result)
 
-		time.Sleep(time.Second * time.Duration(config.Monitor.Interval))
+		time.Sleep(time.Second * time.Duration(config.Interval))
 
 	}
 
