@@ -12,7 +12,6 @@ import (
 type TCPMonitorParam struct {
 	Timeout  int `json:"timeout"`
 	Interval int `json:"interval"`
-	Retries  int `json:"retries"`
 	Port     int `json:"port"`
 
 	//	ReqData string

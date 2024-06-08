@@ -3,9 +3,11 @@ package checkers
 import (
 	"crypto/tls"
 	"encoding/json"
+	"log"
 	"net"
 	"net/http"
 	"net/url"
+	"slices"
 	"strconv"
 	"time"
 )
@@ -21,15 +23,14 @@ type HTTPMonitorParam struct {
 
 	Timeout  int `json:"timeout"`
 	Interval int `json:"interval"`
-	Retries  int `json:"retries"`
 }
 
 // Output param for monitor
 type HttpHealthData struct {
-	Health     bool   `json:"health"`
-	LastCheck  int64  `json:"lastCheck"`
-	IP         string `json:"ip"`
-	StatusCode string `json:"statusCode"`
+	Health    bool   `json:"health"`
+	LastCheck int64  `json:"lastCheck"`
+	IP        string `json:"ip"`
+	Status    string `json:"status"`
 }
 
 // Check healt host with TCP method
@@ -73,17 +74,26 @@ func HttpCheck(config WatcherConfig, memberName string) interface{} {
 
 	res, errRes := client.Do(req)
 
-	health := HttpHealthData{
-		Health:    errRes == nil,
+	log.Println(errRes)
+	log.Println(res)
+
+	data := HttpHealthData{
+		Health:    false,
 		LastCheck: time.Now().Unix(),
 		IP:        member.Ip,
 	}
 
-	if res != nil {
-		health.StatusCode = res.Status
+	if errRes == nil {
+		if slices.Contains(monitorParam.ValidCodes, res.StatusCode) {
+			data.Health = true
+		}
+
+		data.Status = res.Status
+	} else {
+		data.Status = errRes.Error()
 	}
 
-	return health
+	return data
 }
 
 func urlJoin(member Member, monParam HTTPMonitorParam) string {

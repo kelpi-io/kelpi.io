@@ -5,18 +5,16 @@
   "interval": 2,
   "monitor": {
     "https" : true,
-    "host" : "dummyjson.com",
-    "path" : "/test",
+    "host" : "68fc6613-cdf7-4d7a-89d1-8bf94fcb864c.mock.pstmn.io",
+    "path" : "/",
     "headers" : {
     },
     "port": 443,
     "valid_codes": [200, 201],
-    "timeout": 2,
-    "retries": 2
+    "timeout": 2
   },
   "tcp_monitor": {
     "interval": 2,
-    "retries": 2,
     "port": 80
   },
   "http_monitor" : {
@@ -27,12 +25,11 @@
     },
     "port": 80,
     "valid_codes": [200, 201],
-    "timeout": 2,
-    "retries": 2
+    "timeout": 2
   },
   "members": {
     "ip2" : {
-      "ip": "104.196.232.237",
+      "ip": "34.224.123.113",
       "weight": 1
     }
   }

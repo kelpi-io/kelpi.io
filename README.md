@@ -12,7 +12,6 @@
   "interval": 2,
   "monitor": {
     "interval": 2,
-    "retries": 2,
     "port": 80
   },
   "members": {
@@ -46,8 +45,7 @@
     },
     "port": 443,
     "valid_codes": [200, 201],
-    "timeout": 2,
-    "retries": 2
+    "timeout": 2
   },
   "members": {
     "ip2" : {
@@ -57,3 +55,6 @@
   }
 }
 ```
+
+## TODO
+- [ ] Retries
