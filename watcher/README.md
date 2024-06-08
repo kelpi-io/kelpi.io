@@ -1,6 +1,6 @@
-# Global Server Load Balancer in Kubernetes
+# Watcher for balancing endpoint
 
-![](https://raw.githubusercontent.com/vaishutin/gslb-operator/main/docs/img/components.png)
+![](https://raw.githubusercontent.com/vaishutin/gslb-operator/main/docs/watcher/struct.drawio)
 
 ## TCP exmaple 
 
