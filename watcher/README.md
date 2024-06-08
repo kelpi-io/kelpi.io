@@ -1,6 +1,6 @@
 # Watcher for balancing endpoint
 
-![](https://raw.githubusercontent.com/vaishutin/gslb-operator/main/docs/watcher/struct.drawio)
+![](https://www.draw.io/?lightbox=1&edit=_blank#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fvaishutin%2Fgslb-operator%2Fmain%2Fdocs%2Fwatcher%2Fstruct.drawio)
 
 ## TCP exmaple 
 
