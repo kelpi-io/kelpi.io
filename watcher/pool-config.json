@@ -1,35 +1,14 @@
 {
   "globalName": "gslb-operator.io",
   "balanceType": "wrr",
-  "type" : "http",
+  "monitorType" : "static",
   "interval": 2,
   "monitor": {
-    "https" : true,
-    "host" : "68fc6613-cdf7-4d7a-89d1-8bf94fcb864c.mock.pstmn.io",
-    "path" : "/",
-    "headers" : {
-    },
-    "port": 443,
-    "valid_codes": [200, 201],
-    "timeout": 2
-  },
-  "tcp_monitor": {
-    "interval": 2,
-    "port": 80
-  },
-  "http_monitor" : {
-    "https" : true,
-    "headers" : {
-      "host" : "example.com",
-      "x-api-token" : "qwerty"
-    },
-    "port": 80,
-    "valid_codes": [200, 201],
-    "timeout": 2
+    "enabled" : true
   },
   "members": {
     "ip2" : {
-      "ip": "34.224.123.113",
+      "ip": "104.196.232.237",
       "weight": 1
     }
   }

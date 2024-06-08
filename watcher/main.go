@@ -49,11 +49,12 @@ func main() {
 	// ============================
 
 	checkersMap := map[string]checkers.CheckerPrototype{
-		"tcp":  checkers.TcpCheck,
-		"http": checkers.HttpCheck,
+		"tcp":    checkers.TcpCheck,
+		"http":   checkers.HttpCheck,
+		"static": checkers.StaticCheck,
 	}
 
-	currentChecker := checkersMap[configs.Type]
+	currentChecker := checkersMap[configs.MonitorType]
 
 	// ============================
 	// Go run gorutines

@@ -1,6 +1,6 @@
 # Watcher for balancing endpoint
 
-![](https://www.draw.io/?lightbox=1&edit=_blank#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fvaishutin%2Fgslb-operator%2Fmain%2Fdocs%2Fwatcher%2Fstruct.drawio.png)
+![](https://raw.githubusercontent.com/vaishutin/gslb-operator/main/docs/watcher/struct.drawio.png)
 
 ## TCP exmaple 
 
@@ -8,7 +8,7 @@
 {
   "globalName": "gslb-operator.io",
   "balanceType": "wrr",
-  "type" : "tcp",
+  "monitorType" : "tcp",
   "interval": 2,
   "monitor": {
     "interval": 2,
@@ -33,7 +33,7 @@
 {
   "globalName": "gslb-operator.io",
   "balanceType": "wrr",
-  "type" : "http",
+  "monitorType" : "http",
   "interval": 2,
   "monitor": {
     "https" : true,
@@ -46,6 +46,26 @@
     "port": 443,
     "valid_codes": [200, 201],
     "timeout": 2
+  },
+  "members": {
+    "ip2" : {
+      "ip": "104.196.232.237",
+      "weight": 1
+    }
+  }
+}
+```
+
+## Static check
+
+```YAML
+{
+  "globalName": "gslb-operator.io",
+  "balanceType": "wrr",
+  "monitorType" : "static",
+  "interval": 2,
+  "monitor": {
+    "enabled" : true
   },
   "members": {
     "ip2" : {

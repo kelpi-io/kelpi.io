@@ -15,6 +15,6 @@ type WatcherConfig struct {
 	BalanceType string            `json:"balanceType"`
 	Monitor     json.RawMessage   `json:"monitor"`
 	Members     map[string]Member `json:"members"`
-	Type        string            `json:"type"`
+	MonitorType string            `json:"monitorType"`
 	Interval    int               `json:"interval"`
 }
