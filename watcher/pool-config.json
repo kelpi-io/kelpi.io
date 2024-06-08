@@ -8,7 +8,6 @@
     "host" : "dummyjson.com",
     "path" : "/test",
     "headers" : {
-      "User-Agent" : "curl"
     },
     "port": 443,
     "valid_codes": [200, 201],
