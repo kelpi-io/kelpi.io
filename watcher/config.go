@@ -5,7 +5,7 @@ import (
 
 	"encoding/json"
 
-	"github.com/vaishutin/gslb-operator/watcher/checkers"
+	"github.com/kelpi-io/kelpi-io/watcher/checkers"
 )
 
 // Read config from YAML file and return object

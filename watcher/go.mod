@@ -1,4 +1,4 @@
-module github.com/vaishutin/gslb-operator/watcher
+module github.com/kelpi-io/kelpi-io/watcher
 
 go 1.22.3
 

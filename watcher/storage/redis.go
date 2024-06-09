@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"log"
 
+	"github.com/kelpi-io/kelpi-io/watcher/checkers"
 	"github.com/redis/go-redis/v9"
-	"github.com/vaishutin/gslb-operator/watcher/checkers"
 )
 
 // Init connect

@@ -6,9 +6,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/kelpi-io/kelpi-io/watcher/checkers"
+	"github.com/kelpi-io/kelpi-io/watcher/storage"
 	"github.com/redis/go-redis/v9"
-	"github.com/vaishutin/gslb-operator/watcher/checkers"
-	"github.com/vaishutin/gslb-operator/watcher/storage"
 )
 
 func main() {
