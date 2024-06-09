@@ -22,6 +22,7 @@ func main() {
 	redisPassword := flag.String("rpass", "qwerty", "Redis password")
 	redisDB := flag.Int("rdb", 0, "Redis DB number")
 
+	flag.Parse()
 	// ============================
 	// Read and parse config from Json file
 	// ============================

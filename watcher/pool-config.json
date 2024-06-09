@@ -1,10 +1,19 @@
 {
   "globalName": "gslb-operator.io",
   "balanceType": "wrr",
-  "monitorType" : "static",
+  "monitorType" : "http",
   "interval": 2,
   "monitor": {
-    "enabled" : true
+    "https" : true,
+    "host" : "dummyjson.com",
+    "path" : "/test",
+    "headers" : {
+        "My-token" : "token",
+        "User-Agnet" : "gslb-operatro"
+    },
+    "port": 443,
+    "valid_codes": [200, 201],
+    "timeout": 2
   },
   "members": {
     "ip2" : {

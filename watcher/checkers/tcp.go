@@ -22,6 +22,7 @@ type TCPMonitorParam struct {
 type TcpHealthData struct {
 	Health    bool   `json:"health"`
 	LastCheck int64  `json:"lastCheck"`
+	Latency   int64  `json:"latency"`
 	IP        string `json:"ip"`
 }
 
@@ -47,7 +48,9 @@ func TcpCheck(config WatcherConfig, memberName string) interface{} {
 	// Main code
 	// ============================
 
+	startTime := time.Now()
 	conn, err := net.DialTimeout("tcp", endpoint, timeout)
+	endTime := time.Now()
 
 	if err != nil {
 		log.Printf("[%s] TCP error: %s", member.Ip, err)
@@ -59,6 +62,7 @@ func TcpCheck(config WatcherConfig, memberName string) interface{} {
 		Health:    err == nil,
 		LastCheck: time.Now().Unix(),
 		IP:        member.Ip,
+		Latency:   endTime.Sub(startTime).Milliseconds(),
 	}
 
 	return health

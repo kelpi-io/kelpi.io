@@ -31,6 +31,7 @@ type HttpHealthData struct {
 	LastCheck int64  `json:"lastCheck"`
 	IP        string `json:"ip"`
 	Status    string `json:"status"`
+	Latency   int64  `json:"latency"`
 }
 
 // Check healt host with TCP method
@@ -72,7 +73,9 @@ func HttpCheck(config WatcherConfig, memberName string) interface{} {
 		req.Header.Set(k, v)
 	}
 
+	startTime := time.Now()
 	res, errRes := client.Do(req)
+	endTime := time.Now()
 
 	log.Println(errRes)
 	log.Println(res)
@@ -81,6 +84,7 @@ func HttpCheck(config WatcherConfig, memberName string) interface{} {
 		Health:    false,
 		LastCheck: time.Now().Unix(),
 		IP:        member.Ip,
+		Latency:   endTime.Sub(startTime).Milliseconds(),
 	}
 
 	if errRes == nil {

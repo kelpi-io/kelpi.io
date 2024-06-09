@@ -17,6 +17,7 @@ type StaticMonitorParam struct {
 type StaticData struct {
 	Health    bool   `json:"health"`
 	LastCheck int64  `json:"lastCheck"`
+	Latency   int64  `json:"latency"`
 	IP        string `json:"ip"`
 }
 
@@ -40,10 +41,11 @@ func StaticCheck(config WatcherConfig, memberName string) interface{} {
 	// Main code
 	// ============================
 
-	health := TcpHealthData{
+	health := StaticData{
 		Health:    monitorParam.Enabled,
 		LastCheck: time.Now().Unix(),
 		IP:        member.Ip,
+		Latency:   0,
 	}
 
 	return health
