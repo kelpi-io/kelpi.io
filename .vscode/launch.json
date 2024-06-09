@@ -7,6 +7,13 @@
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/watcher",
+        },
+        {
+            "name": "Debug driver",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/driver",
         }
     ]
 }
