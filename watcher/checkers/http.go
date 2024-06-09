@@ -3,7 +3,6 @@ package checkers
 import (
 	"crypto/tls"
 	"encoding/json"
-	"log"
 	"net"
 	"net/http"
 	"net/url"
@@ -76,9 +75,6 @@ func HttpCheck(config WatcherConfig, memberName string) interface{} {
 	startTime := time.Now()
 	res, errRes := client.Do(req)
 	endTime := time.Now()
-
-	log.Println(errRes)
-	log.Println(res)
 
 	data := HttpHealthData{
 		Health:    false,
