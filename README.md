@@ -1,6 +1,6 @@
 # Global Server Load Balancer in Kubernetes
 
-![](https://raw.githubusercontent.com/vaishutin/gslb-operator/main/docs/components.drawio.svg)
+![](https://raw.githubusercontent.com/kelpi-io/kelpi.io/main/docs/components.drawio.svg)
 
 ## Features
 - 👨‍💻 Working as PowerDNS remote backend
