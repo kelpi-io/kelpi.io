@@ -8,9 +8,9 @@
 - [ ] Api for managing pools (manage over k8s manifests)
 - [ ] UI for manipulation pools and reports
 - Support 3 type of HealthCheck
-  - [ ] TCP - tcp query on port
-  - [ ] HTTP - http query with support TLS, path, and set custorm headers
-  - [ ] Static - all endpoint permanent enabled or disabled
+  - [x] TCP - tcp query on port
+  - [x] HTTP - http query with support TLS, path, and set custorm headers
+  - [x] Static - all endpoint permanent enabled or disabled
 
 - LoadBalancing Methods
   - [ ] Static (return all health endpoint)
