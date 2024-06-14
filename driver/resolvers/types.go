@@ -4,7 +4,7 @@ type RecordInfo struct {
 	QType   string `json:"qtype"`
 	QName   string `json:"qname"`
 	Content string `json:"content"`
-	TTL     uint32 `json:"ttl"`
+	TTL     int    `json:"ttl"`
 }
 
 type Response struct {

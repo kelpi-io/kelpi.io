@@ -4,7 +4,7 @@ type Config struct {
 	RootDomain    string
 	RedisHost     string
 	RedisPassword string
-	RedisDB       int64
+	RedisDB       int
 	SoaMname      string
 	SoaRname      string
 	SoaSerial     string

@@ -14,6 +14,7 @@
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/driver",
+            "envFile": "${workspaceFolder}/driver/.env"
         }
     ]
 }

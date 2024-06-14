@@ -11,10 +11,10 @@ func LoadConfig() Config {
 	redisDBint, _ := strconv.Atoi(redisDB)
 
 	ret := Config{
-		RootDomain:    getEnv("KELPI_ROOT_DOMAIN", "."),
+		RootDomain:    getEnv("KELPI_ROOT_DOMAIN", "com."),
 		RedisHost:     getEnv("KELPI_REDIS_HOST", "localhost:6379"),
 		RedisPassword: getEnv("KELPI_REDIS_PASSWORD", "qwerty"),
-		RedisDB:       int64(redisDBint),
+		RedisDB:       redisDBint,
 		SoaMname:      getEnv("KELPI_SOA_MNAME	", "kelpi.example.com."),
 		SoaRname:      getEnv("KELPI_SOA_RNAME	", "hostmaster.kelpi.example.com."),
 		SoaSerial:     getEnv("KELPI_SOA_SERIAL", "1"),

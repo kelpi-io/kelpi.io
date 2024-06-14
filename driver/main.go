@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/kelpi-io/kelpi-io/driver/resolvers"
 	"github.com/kelpi-io/kelpi-io/driver/storages"
@@ -15,8 +17,11 @@ func main() {
 		panic(err)
 	}
 
+	log.Println("Started driver for", config.RootDomain)
+
 	gin.SetMode(gin.ReleaseMode)
-	server := gin.Default()
+	server := gin.New()
+	server.Use(gin.Recovery())
 
 	server.GET("pdns/getAllDomains", resolvers.GetAllDomainsHandler(&config))
 	server.GET("pdns/lookup/:qname/:qtype", resolvers.LookupHandler(config, rdb))
