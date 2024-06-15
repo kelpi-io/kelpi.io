@@ -1,6 +1,7 @@
 package resolvers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -34,6 +35,7 @@ func LookupHandler(config storages.Config, rdb *redis.Client) func(c *gin.Contex
 		if len(fwdForHeaders) > 0 {
 			fwdFor = fwdForHeaders[0]
 		}
+		log.Println(fwdFor, qname)
 
 		ri := Lookup(qname, qtype, fwdFor, config, rdb)
 

@@ -14,9 +14,10 @@
   - ✅ Static - all endpoint permanent enabled or disabled
 
 - LoadBalancing Methods
-  - 👨‍💻 Static (return all health endpoint)
   - ❌ Weight Round Robin
   - ❌ Failover group (active-backup)
+  - 👨‍💻 Static (return all health endpoint)
+  - ❌ Blank (return all endpoint)
 
 - Fallback method
   - ❌ Return fallback endpoint

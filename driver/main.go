@@ -11,6 +11,8 @@ import (
 func main() {
 	config := storages.LoadConfig()
 
+	storages.GetClientRDB(config.RedisHost, config.RedisPassword, int(config.RedisDB))
+
 	rdb, err := storages.GetClient(config.RedisHost, config.RedisPassword, int(config.RedisDB))
 
 	if err != nil {
