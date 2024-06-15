@@ -39,7 +39,7 @@ func main() {
 	// Read and parse config from Json file
 	// ============================
 
-	configs, err := GetConfig(poolConfig)
+	configs, err := storage.GetConfig(poolConfig)
 
 	if err != nil {
 		panic(err)
