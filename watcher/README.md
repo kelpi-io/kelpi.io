@@ -1,6 +1,6 @@
 # Watcher for balancing endpoint
 
-![](https://raw.githubusercontent.com/vaishutin/gslb-operator/main/docs/watcher/structure.drawio.svg)
+![](https://raw.githubusercontent.com/kelpi-io/kelpi.io/main/docs/watcher/structure.drawio.svg)
 
 ## TCP exmaple 
 

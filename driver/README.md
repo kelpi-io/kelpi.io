@@ -1,3 +1,3 @@
-# Watcher for balancing endpoint
+# Driver for PowerDNS and balancer
 
-![](https://raw.githubusercontent.com/vaishutin/gslb-operator/main/docs/driver/structure.drawio.svg)
+![](https://raw.githubusercontent.com/kelpi-io/kelpi.io/main/docs/driver/structure.drawio.svg)
