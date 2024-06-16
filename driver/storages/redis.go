@@ -44,7 +44,7 @@ func GetPool(qname string) (WatcherConfig, error) {
 	ret := conn.Get(Client.Ctx, qname)
 
 	if ret.Err() == redis.Nil {
-		return WatcherConfig{}, errors.New("Pool not found")
+		return WatcherConfig{}, errors.New("pool not found")
 	} else if ret.Err() != nil {
 		panic(ret.Err())
 	}
