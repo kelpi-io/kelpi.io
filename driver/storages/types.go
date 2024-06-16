@@ -17,6 +17,14 @@ type Config struct {
 	SoaTTL        string
 }
 
+type BaseMemberHealth struct {
+	Ip        string `json:"ip"`
+	Health    bool   `json:"health"`
+	LastCheck int    `json:"lastCheck"`
+	Latency   int    `json:"latency"`
+	Status    string `json:"status"`
+}
+
 type Member struct {
 	Ip     string `json:"ip"`
 	Weight int    `json:"weight"`

@@ -6,9 +6,17 @@ import (
 
 func GetStatic(wc storages.WatcherConfig) []string {
 
-	var ret []string
+	members := storages.GetMembers[storages.BaseMemberHealth](wc)
 
-	ret = append(ret, wc.Members["ip2"].Ip)
+	var ret []string
+	for _, data := range members {
+		if !data.Health {
+			continue
+		}
+
+		ret = append(ret, data.Ip)
+
+	}
 
 	return ret
 }

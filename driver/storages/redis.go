@@ -4,7 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -18,15 +20,19 @@ type RedisRepository struct {
 
 func Connect(addr string, password string, db int) error {
 	Client.Connection = redis.NewClient(&redis.Options{
-		Addr:     addr,
-		Password: password,
-		DB:       db,
-		PoolSize: 1000,
+		Addr:            addr,
+		Password:        password,
+		DB:              db,
+		PoolSize:        1000,
+		ConnMaxLifetime: (1 * time.Minute),
 	})
 
 	Client.Ctx = context.Background()
 
-	cmd := Client.Connection.Get(context.TODO(), "Test")
+	conn := Client.Connection.Conn()
+	defer conn.Close()
+
+	cmd := conn.Ping(Client.Ctx)
 	if cmd.Err() != nil {
 		log.Println("Redis connect error")
 		return cmd.Err()
@@ -59,21 +65,38 @@ func GetPool(qname string) (WatcherConfig, error) {
 
 }
 
-func GetMembers(conn *redis.Conn, wc WatcherConfig) []Member {
-	ctx := context.Background()
+func GetMembers[T interface{}](wc WatcherConfig) []T {
 
 	var keys []string
 
 	for member := range wc.Members {
-		keys = append(keys, wc.GlobalName+"/"+member)
+		fullKey := fmt.Sprintf("%s/%s/health", wc.GlobalName, member)
+		keys = append(keys, fullKey)
 	}
 
-	ret := conn.MGet(ctx, keys...)
+	conn := Client.Connection.Conn()
+	defer conn.Close()
 
-	if ret.Err() != nil {
-		panic(ret.Err())
+	redisCmd := conn.MGet(Client.Ctx, keys...)
+
+	if redisCmd.Err() == redis.Nil {
+		return []T{}
+	} else if redisCmd.Err() != nil {
+		panic(redisCmd.Err())
 	}
 
-	return []Member{}
+	var ret []T
+
+	for _, data := range redisCmd.Val() {
+		var memberHealth T
+		if err := json.Unmarshal([]byte(data.(string)), &memberHealth); err != nil {
+			log.Println(err)
+			continue
+		}
+
+		ret = append(ret, memberHealth)
+	}
+
+	return ret
 
 }
