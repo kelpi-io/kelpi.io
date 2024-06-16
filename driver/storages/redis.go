@@ -3,63 +3,49 @@ package storages
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"log"
 
 	"github.com/redis/go-redis/v9"
 )
 
-var (
-	RDB *redis.Client
-)
+var Client = RedisRepository{}
 
-// Init connect
-func GetClientRDB(addr string, password string, db int) error {
-	client := redis.NewClient(&redis.Options{
+type RedisRepository struct {
+	Connection *redis.Client
+	Ctx        context.Context
+}
+
+func Connect(addr string, password string, db int) error {
+	Client.Connection = redis.NewClient(&redis.Options{
 		Addr:     addr,
 		Password: password,
 		DB:       db,
 		PoolSize: 1000,
 	})
 
-	ctx := context.Background()
+	Client.Ctx = context.Background()
 
-	cmd := client.Ping(ctx)
+	cmd := Client.Connection.Get(context.TODO(), "Test")
 	if cmd.Err() != nil {
 		log.Println("Redis connect error")
 		return cmd.Err()
 	}
-	log.Println("[REDIS]", cmd)
-
-	RDB = client
+	log.Println("[REDIS-connect]", cmd)
 
 	return nil
 }
 
-// Init connect
-func GetClient(addr string, password string, db int) (*redis.Client, error) {
-	client := redis.NewClient(&redis.Options{
-		Addr:     addr,
-		Password: password,
-		DB:       db,
-		PoolSize: 1000,
-	})
+func GetPool(qname string) (WatcherConfig, error) {
 
-	ctx := context.Background()
+	conn := Client.Connection.Conn()
+	defer conn.Close()
 
-	cmd := client.Ping(ctx)
-	if cmd.Err() != nil {
-		log.Println("Redis connect error")
-		return nil, cmd.Err()
-	}
-	log.Println("[REDIS]", cmd)
+	ret := conn.Get(Client.Ctx, qname)
 
-	return client, nil
-}
-
-func GetPool(conn *redis.Conn, qname string) WatcherConfig {
-	ctx := context.Background()
-	ret := (*RDB).Get(ctx, qname)
-	if ret.Err() != nil {
+	if ret.Err() == redis.Nil {
+		return WatcherConfig{}, errors.New("Pool not found")
+	} else if ret.Err() != nil {
 		panic(ret.Err())
 	}
 
@@ -69,7 +55,7 @@ func GetPool(conn *redis.Conn, qname string) WatcherConfig {
 		panic(err)
 	}
 
-	return wconf
+	return wconf, nil
 
 }
 

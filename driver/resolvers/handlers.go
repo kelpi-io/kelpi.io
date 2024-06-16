@@ -1,19 +1,17 @@
 package resolvers
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/kelpi-io/kelpi-io/driver/storages"
-	"github.com/redis/go-redis/v9"
 )
 
-func GetAllDomainsHandler(config *storages.Config) func(c *gin.Context) {
+func GetAllDomainsHandler() func(c *gin.Context) {
 
 	res := Response{
 		Result: []DomainInfoResult{
-			{Zone: config.RootDomain},
+			{Zone: storages.ConfigDriver.RootDomain},
 		},
 	}
 
@@ -24,9 +22,10 @@ func GetAllDomainsHandler(config *storages.Config) func(c *gin.Context) {
 
 }
 
-func LookupHandler(config storages.Config, rdb *redis.Client) func(c *gin.Context) {
+func LookupHandler() func(c *gin.Context) {
 
 	return func(c *gin.Context) {
+
 		qname := c.Param("qname")
 		qtype := c.Param("qtype")
 		fwdForHeaders := c.Request.Header[http.CanonicalHeaderKey("X-Remotebackend-Remote")]
@@ -35,9 +34,9 @@ func LookupHandler(config storages.Config, rdb *redis.Client) func(c *gin.Contex
 		if len(fwdForHeaders) > 0 {
 			fwdFor = fwdForHeaders[0]
 		}
-		log.Println(fwdFor, qname)
+		//log.Println(fwdFor, qname)
 
-		ri := Lookup(qname, qtype, fwdFor, config, rdb)
+		ri := Lookup(qname, qtype, fwdFor)
 
 		if len(ri) > 0 {
 			res := Response{

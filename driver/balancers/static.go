@@ -2,12 +2,13 @@ package balancers
 
 import (
 	"github.com/kelpi-io/kelpi-io/driver/storages"
-	"github.com/redis/go-redis/v9"
 )
 
-func GetStatic(conn *redis.Conn, wc storages.WatcherConfig) []string {
+func GetStatic(wc storages.WatcherConfig) []string {
 
-	storages.GetMembers(conn, wc)
+	var ret []string
 
-	return []string{}
+	ret = append(ret, wc.Members["ip2"].Ip)
+
+	return ret
 }

@@ -6,18 +6,14 @@ import (
 
 	"github.com/kelpi-io/kelpi-io/driver/balancers"
 	"github.com/kelpi-io/kelpi-io/driver/storages"
-	"github.com/redis/go-redis/v9"
 )
 
-func Lookup(qname string, qtype string, source string, config storages.Config, rdb *redis.Client) []RecordInfo {
-	// Prepare connect
-	con := rdb.Conn()
-	defer con.Close()
+func Lookup(qname string, qtype string, source string) []RecordInfo {
 
 	// Get records
 	var ret []RecordInfo
-	recordSoa := getSOA(qname, config)
-	recordA := getA(qname, con)
+	recordSoa := getSOA(qname)
+	recordA := getA(qname)
 
 	// Prepare return array
 	ret = append(ret, recordSoa...)
@@ -26,15 +22,41 @@ func Lookup(qname string, qtype string, source string, config storages.Config, r
 	return ret
 }
 
-func getA(qname string, conn *redis.Conn) []RecordInfo {
-	wc := storages.GetPool(conn, qname)
+func getA(qname string) []RecordInfo {
 
-	balancers.GetStatic(conn, wc)
-	return []RecordInfo{}
+	pool, err := storages.GetPool(qname)
+
+	if err != nil {
+		return []RecordInfo{}
+	}
+
+	currentWatcher := balancers.Balancers[pool.BalanceType]
+
+	records := currentWatcher(pool)
+
+	var ret []RecordInfo
+
+	for _, val := range records {
+		currentRecord := RecordInfo{
+			QType:   "A",
+			QName:   qname,
+			Content: val,
+			TTL:     1,
+		}
+
+		ret = append(ret, currentRecord)
+	}
+
+	return ret
+
+	//log.Println(wc)
+	// balancers.GetStatic(wc)
 
 }
 
-func getSOA(qname string, config storages.Config) []RecordInfo {
+func getSOA(qname string) []RecordInfo {
+	config := storages.ConfigDriver
+
 	if qname == config.RootDomain {
 		SOAstring := fmt.Sprintf(
 			"%s %s %s %s %s %s %s",
