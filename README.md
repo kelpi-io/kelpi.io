@@ -16,7 +16,7 @@
 - LoadBalancing Methods
   - ❌ Weight Round Robin
   - ❌ Failover group (active-backup)
-  - 👨‍💻 Static (return all health endpoint)
+  - ✅ Static (return all health endpoint)
   - ❌ Blank (return all endpoint)
 
 - Fallback method
